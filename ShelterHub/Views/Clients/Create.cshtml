@@ -1,0 +1,88 @@
+﻿@model ShelterHub.Models.Client
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Client</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="OkToText" /> @Html.DisplayNameFor(model => model.OkToText)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmergencyPhone" class="control-label"></label>
+                <input asp-for="EmergencyPhone" class="form-control" />
+                <span asp-validation-for="EmergencyPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmergencyName" class="control-label"></label>
+                <input asp-for="EmergencyName" class="form-control" />
+                <span asp-validation-for="EmergencyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedStaff" class="control-label"></label>
+                <input asp-for="AssignedStaff" class="form-control" />
+                <span asp-validation-for="AssignedStaff" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomNumber" class="control-label"></label>
+                <input asp-for="RoomNumber" class="form-control" />
+                <span asp-validation-for="RoomNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IntakeComplete" /> @Html.DisplayNameFor(model => model.IntakeComplete)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntakeDate" class="control-label"></label>
+                <input asp-for="IntakeDate" class="form-control" />
+                <span asp-validation-for="IntakeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartDate" class="control-label"></label>
+                <input asp-for="DepartDate" class="form-control" />
+                <span asp-validation-for="DepartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
