@@ -11,23 +11,23 @@ using ShelterHub.Models.ViewModels;
 
 namespace ShelterHub.Controllers
 {
-    public class ClientStepsController : Controller
+    public class ClientGroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ClientStepsController(ApplicationDbContext context)
+        public ClientGroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ClientSteps
+        // GET: ClientGroups
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ClientSteps.Include(c => c.Client).Include(c => c.Step);
+            var applicationDbContext = _context.ClientGroups.Include(c => c.Client).Include(c => c.Group);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ClientSteps/Details/5
+        // GET: ClientGroups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,25 +35,27 @@ namespace ShelterHub.Controllers
                 return NotFound();
             }
 
-            var clientStep = await _context.ClientSteps
+            var clientGroup = await _context.ClientGroups
                 .Include(c => c.Client)
-                .Include(c => c.Step)
+                .Include(c => c.Group)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (clientStep == null)
+            if (clientGroup == null)
             {
                 return NotFound();
             }
 
-            return View(clientStep);
+            return View(clientGroup);
         }
 
-        // GET: ClientSteps/Create
+        // GET: ClientGroups/Create
         public async Task<IActionResult> Create(int id)
         {
+
+
             List<Client> clients = await _context.Clients.ToListAsync();
 
-            var step = await _context.Steps.Include(s => s.ClientSteps).FirstOrDefaultAsync(m => m.Id == id);
-            var viewModel = new CreateClientStepViewModel()
+            var group = await _context.Groups.Include(g => g.ClientGroups).FirstOrDefaultAsync(m => m.Id == id);
+            var viewModel = new CreateClientGroupViewModel()
             {
 
                 ClientNameOptions = clients.Select(c => new SelectListItem
@@ -61,28 +63,28 @@ namespace ShelterHub.Controllers
                     Value = c.Id.ToString(),
                     Text = c.FullName
                 }).ToList(),
-                ClientStep = new ClientStep()
+                ClientGroup = new ClientGroup()
                 {
-                    StepId = id
+                    GroupId = id
                 }
             };
-            
-            ViewData["StepId"] = step.StepName;
+
+            ViewData["GroupId"] = group.GroupName;
             return View(viewModel);
         }
 
-        // POST: ClientSteps/Create
+        // POST: ClientGroups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateClientStepViewModel vm)
+        public async Task<IActionResult> Create(CreateClientGroupViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vm.ClientStep);
+                _context.Add(vm.ClientGroup);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Steps");
+                return RedirectToAction("Index", "Groups");
             }
 
             // If the post fails, rebuild the view model and send it back to the view
@@ -97,7 +99,7 @@ namespace ShelterHub.Controllers
             return View(vm);
         }
 
-        // GET: ClientSteps/Edit/5
+        // GET: ClientGroups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,24 +107,24 @@ namespace ShelterHub.Controllers
                 return NotFound();
             }
 
-            var clientStep = await _context.ClientSteps.Include(c => c.Client).Include(c => c.Step).FirstOrDefaultAsync(m => m.Id == id); 
-            if (clientStep == null)
+            var clientGroup = await _context.ClientGroups.FindAsync(id);
+            if (clientGroup == null)
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = clientStep.Client.FullName;
-            ViewData["StepId"] = clientStep.Step.StepName;
-            return View(clientStep);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", clientGroup.ClientId);
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Id", clientGroup.GroupId);
+            return View(clientGroup);
         }
 
-        // POST: ClientSteps/Edit/5
+        // POST: ClientGroups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,StepId,DateStarted,DateCompleted")] ClientStep clientStep)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,GroupId")] ClientGroup clientGroup)
         {
-            if (id != clientStep.Id)
+            if (id != clientGroup.Id)
             {
                 return NotFound();
             }
@@ -131,12 +133,12 @@ namespace ShelterHub.Controllers
             {
                 try
                 {
-                    _context.Update(clientStep);
+                    _context.Update(clientGroup);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientStepExists(clientStep.Id))
+                    if (!ClientGroupExists(clientGroup.Id))
                     {
                         return NotFound();
                     }
@@ -145,14 +147,14 @@ namespace ShelterHub.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Steps");
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", clientStep.ClientId);
-            ViewData["StepId"] = new SelectList(_context.Steps, "Id", "Id", clientStep.StepId);
-            return View(clientStep);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", clientGroup.ClientId);
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Id", clientGroup.GroupId);
+            return View(clientGroup);
         }
 
-        // GET: ClientSteps/Delete/5
+        // GET: ClientGroups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -160,32 +162,32 @@ namespace ShelterHub.Controllers
                 return NotFound();
             }
 
-            var clientStep = await _context.ClientSteps
+            var clientGroup = await _context.ClientGroups
                 .Include(c => c.Client)
-                .Include(c => c.Step)
+                .Include(c => c.Group)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (clientStep == null)
+            if (clientGroup == null)
             {
                 return NotFound();
             }
 
-            return View(clientStep);
+            return View(clientGroup);
         }
 
-        // POST: ClientSteps/Delete/5
+        // POST: ClientGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clientStep = await _context.ClientSteps.FindAsync(id);
-            _context.ClientSteps.Remove(clientStep);
+            var clientGroup = await _context.ClientGroups.FindAsync(id);
+            _context.ClientGroups.Remove(clientGroup);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Groups");
         }
 
-        private bool ClientStepExists(int id)
+        private bool ClientGroupExists(int id)
         {
-            return _context.ClientSteps.Any(e => e.Id == id);
+            return _context.ClientGroups.Any(e => e.Id == id);
         }
     }
 }
