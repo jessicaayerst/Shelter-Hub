@@ -104,11 +104,15 @@
 <br />
 <div>
     <dt class="col-sm-2">Current Groups</dt>
+    |
+    <a asp-controller="Groups" asp-action="Index">Add A Group</a> |
+
     @foreach (var ClientGroup in Model.ClientGroups)
     {
         <dd class="col-sm-10">
             @Html.DisplayFor(modelItem => ClientGroup.Group.GroupName)
         </dd>
+        <a asp-controller="ClientGroups" asp-route-id="@ClientGroup.Id" asp-action="Delete">Delete Group From Client</a>
     }
 </div>
 <div>
