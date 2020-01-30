@@ -27,6 +27,7 @@ namespace ShelterHub.Models
         public List<ClientGroup> ClientGroups { get; set; } = new List<ClientGroup>();
         public DateTime IntakeDate { get; set; }
         public DateTime? DepartDate { get; set; }
+        public byte[] ClientImage { get; set; }
 
     }
 }

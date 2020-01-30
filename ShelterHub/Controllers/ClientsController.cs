@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShelterHub.Data;
 using ShelterHub.Models;
+using ShelterHub.Models.ViewModels;
 
 namespace ShelterHub.Controllers
 {
@@ -101,8 +103,9 @@ namespace ShelterHub.Controllers
         // GET: Clients/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            CreateClientWithImageViewModel vm = new CreateClientWithImageViewModel();
+          
+            return View(vm);
         }
 
         // POST: Clients/Create
@@ -110,18 +113,30 @@ namespace ShelterHub.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Phone,OkToText,EmergencyPhone,EmergencyName,AssignedStaff,RoomNumber,IntakeComplete,IntakeDate,DepartDate")] Client client)
+        public async Task<IActionResult> Create(CreateClientWithImageViewModel vm)
         {
+            ModelState.Remove("client.UserId");
             if (ModelState.IsValid)
             {
                 var currentUser = await GetCurrentUserAsync();
-                client.UserId = currentUser.Id;
-                _context.Add(client);
+                if (vm.ImageFile != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await vm.ImageFile.CopyToAsync(memoryStream);
+                        vm.Client.ClientImage = memoryStream.ToArray();
+                    }
+                };
+
+
+                vm.Client.UserId = currentUser.Id;
+                _context.Add(vm.Client);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
-            return View(client);
+            }          
+           
+            return View(vm);
         }
 
         // GET: Clients/Edit/5
@@ -137,8 +152,12 @@ namespace ShelterHub.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
-            return View(client);
+
+            var viewModel = new EditClientWithImageViewModel()
+            {
+                Client = client
+            };
+            return View(viewModel);
         }
 
         // POST: Clients/Edit/5
@@ -146,8 +165,9 @@ namespace ShelterHub.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Phone,OkToText,EmergencyPhone,EmergencyName,AssignedStaff,RoomNumber,IntakeComplete,IntakeDate,DepartDate")] Client client)
+        public async Task<IActionResult> Edit(int id, EditClientWithImageViewModel viewModel)
         {
+            var client = viewModel.Client;
             if (id != client.Id)
             {
                 return NotFound();
@@ -158,6 +178,15 @@ namespace ShelterHub.Controllers
                 try
                 {
                     var currentUser = await GetCurrentUserAsync();
+
+                    if (viewModel.ImageFile != null)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await viewModel.ImageFile.CopyToAsync(memoryStream);
+                            viewModel.Client.ClientImage = memoryStream.ToArray();
+                        }
+                    };
                     client.UserId = currentUser.Id;
                     _context.Update(client);
                     await _context.SaveChangesAsync();
@@ -176,8 +205,11 @@ namespace ShelterHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", client.UserId);
-            return View(client);
+            else
+            {
+
+            }
+            return View(viewModel);
         }
 
         // GET: Clients/Delete/5
