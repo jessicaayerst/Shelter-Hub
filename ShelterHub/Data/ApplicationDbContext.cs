@@ -60,7 +60,8 @@ namespace ShelterHub.Data
                    RoomNumber = 3,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2020, 01, 01),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -77,7 +78,8 @@ namespace ShelterHub.Data
                    RoomNumber = 5,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2019, 09, 18),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -94,7 +96,8 @@ namespace ShelterHub.Data
                    RoomNumber = 3,
                    IntakeComplete = false,
                    IntakeDate = new DateTime(2020, 01, 15),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -111,7 +114,8 @@ namespace ShelterHub.Data
                    RoomNumber = 2,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2019, 06, 25),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -128,7 +132,8 @@ namespace ShelterHub.Data
                    RoomNumber = 1,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2020, 01, 18),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -145,7 +150,8 @@ namespace ShelterHub.Data
                    RoomNumber = 3,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2019, 11, 11),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -162,7 +168,8 @@ namespace ShelterHub.Data
                    RoomNumber = 2,
                    IntakeComplete = false,
                    IntakeDate = new DateTime(2020, 01, 06),
-                   DepartDate = null
+                   DepartDate = null,
+                   ClientImage = null
                },
                new Client()
                {
@@ -179,7 +186,8 @@ namespace ShelterHub.Data
                    RoomNumber = 5,
                    IntakeComplete = true,
                    IntakeDate = new DateTime(2019, 10, 01),
-                   DepartDate = new DateTime(2019, 01, 10)
+                   DepartDate = new DateTime(2019, 01, 10),
+                   ClientImage = null
                }
                );
 
