@@ -29,73 +29,73 @@
     <dl class="row">
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+            First Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+            Last Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            Client Email Address
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
+            Client Phone Number
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Phone)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OkToText)
+           Is it ok to text client?
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OkToText)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmergencyPhone)
+            Emergency Number
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmergencyPhone)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmergencyName)
+            Emergency Contact Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmergencyName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignedStaff)
+            Assigned Staff
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AssignedStaff)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomNumber)
+            Room Number
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RoomNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IntakeComplete)
+            Is intake complete?
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IntakeComplete)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IntakeDate)
+            Date of Intake
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IntakeDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartDate)
+            Date of Departure
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DepartDate)
@@ -104,51 +104,77 @@
 </div>
 <br />
 <div>
-    <h2>Current Steps</h2>
+    <h2>Client Steps</h2>
     |
     <a asp-controller="Steps" asp-action="Index">Add A Step</a> |
-    <br/>
-    <br/>
-    
+    <br />
+    <br />
+
 
     @foreach (var ClientStep in Model.ClientSteps)
     {
-        <br />
-        <dt class="col-sm-10">
-            @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
-        </dt>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        @if (ClientStep.DateCompleted == null)
+
+        {
+            <br />
+            <dt class="card-title">
+                @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
+            </dt>
+            <p class="card-text">(Current)</p>
+        }
+        else
+
+        {
+            <br />
+            <dt class="card-title">
+                @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
+            </dt>
+            <p class="card-text">(Completed)</p>
+        }
+
 
 
         <a asp-controller="ClientSteps" asp-route-id="@ClientStep.Id" asp-action="Edit">Edit</a>
         <br />
-    }
+    </div>
 </div>
-<br />
-<br />
-<br />
+                }
+            </div>
+            <br />
+            <br />
+            <br />
 
-<div>
-    <h2>Current Groups</h2>
-    |
-    <a asp-controller="Groups" asp-action="Index">Add A Group</a> |
-    <br />
-    
+            <div>
+                <h2>Current Groups</h2>
+                |
+                <a asp-controller="Groups" asp-action="Index">Add A Group</a> |
+                <br />
 
-    @foreach (var ClientGroup in Model.ClientGroups)
-    {
-        <br />
-        <dt class="col-sm-10">
-            @Html.DisplayFor(modelItem => ClientGroup.Group.GroupName)
-        </dt>
-        <a asp-controller="ClientGroups" asp-route-id="@ClientGroup.Id" asp-action="Delete">Delete</a>
-        <br />
-      
-        
-    }
-</div>
-<div>
-    <br />
-    <br />
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+                @foreach (var ClientGroup in Model.ClientGroups)
+
+                {
+                    <br />
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => ClientGroup.Group.GroupName)
+                            </dt>
+                            <a asp-controller="ClientGroups" asp-route-id="@ClientGroup.Id" asp-action="Delete">Delete</a>
+                            <br />
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+                        <div>
+                            <br />
+                            <br />
+                            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                            <a asp-action="Index">Back to List</a>
+                        </div>

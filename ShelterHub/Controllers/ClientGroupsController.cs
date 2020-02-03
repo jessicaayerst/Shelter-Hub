@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,20 @@ namespace ShelterHub.Controllers
 {
     public class ClientGroupsController : Controller
     {
+        //Private field to store user manager
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly ApplicationDbContext _context;
 
-        public ClientGroupsController(ApplicationDbContext context)
+        // Inject user manager into constructor
+        public ClientGroupsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        // Private method to get current user
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: ClientGroups
         public async Task<IActionResult> Index()
@@ -51,10 +60,18 @@ namespace ShelterHub.Controllers
         public async Task<IActionResult> Create(int id)
         {
 
+            var user = await GetCurrentUserAsync();
 
-            List<Client> clients = await _context.Clients.ToListAsync();
+            List<Client> clients = await _context.Clients
+                 .Include(c => c.User).Where(c => c.UserId == user.Id)
+                 .ToListAsync();
 
-            var group = await _context.Groups.Include(g => g.ClientGroups).FirstOrDefaultAsync(m => m.Id == id);
+            
+
+            var group = await _context.Groups
+                .Include(c => c.User)
+                .Include(g => g.ClientGroups)
+                .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
             var viewModel = new CreateClientGroupViewModel()
             {
 
@@ -84,7 +101,7 @@ namespace ShelterHub.Controllers
             {
                 _context.Add(vm.ClientGroup);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Groups");
+                return RedirectToAction("Details", "Clients", new { id = vm.ClientGroup.ClientId });
             }
 
             // If the post fails, rebuild the view model and send it back to the view
