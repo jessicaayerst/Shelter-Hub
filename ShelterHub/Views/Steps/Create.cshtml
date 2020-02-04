@@ -17,11 +17,7 @@
                 <input asp-for="Step.StepName" class="form-control" />
                 <span asp-validation-for="Step.StepName" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Step.IsArchived" /> @Html.DisplayNameFor(model => model.Step.IsArchived)
-                </label>
-            </div>
+        
             <div class="form-group">
                 <label asp-for="Step.StepTypeId" class="control-label"></label>
                 <select asp-for="Step.StepTypeId" class ="form-control" asp-items="@Model.StepTypeOptions"></select>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +15,21 @@ namespace ShelterHub.Controllers
 {
     public class ClientStepsController : Controller
     {
+       
+        //Private field to store user manager
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly ApplicationDbContext _context;
 
-        public ClientStepsController(ApplicationDbContext context)
+        // Inject user manager into constructor
+        public ClientStepsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        // Private method to get current user
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: ClientSteps
         public async Task<IActionResult> Index()
@@ -51,9 +61,18 @@ namespace ShelterHub.Controllers
         // GET: ClientSteps/Create
         public async Task<IActionResult> Create(int id)
         {
-            List<Client> clients = await _context.Clients.ToListAsync();
+            var user = await GetCurrentUserAsync();
 
-            var step = await _context.Steps.Include(s => s.ClientSteps).FirstOrDefaultAsync(m => m.Id == id);
+            List<Client> clients = await _context.Clients
+                .Include(c => c.User).Where(c => c.UserId == user.Id)
+                .ToListAsync();
+
+           
+
+            var step = await _context.Steps
+                 .Include(s => s.User)
+                .Include(s => s.ClientSteps)
+                .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
             var viewModel = new CreateClientStepViewModel()
             {
 
@@ -83,7 +102,7 @@ namespace ShelterHub.Controllers
             {
                 _context.Add(vm.ClientStep);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Steps");
+                return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
             }
 
             // If the post fails, rebuild the view model and send it back to the view
@@ -146,7 +165,7 @@ namespace ShelterHub.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Steps");
+                return RedirectToAction("Details", "Clients", new { id = clientStep.ClientId });
             }
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", clientStep.ClientId);
             ViewData["StepId"] = new SelectList(_context.Steps, "Id", "Id", clientStep.StepId);

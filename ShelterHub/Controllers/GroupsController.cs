@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,7 +28,7 @@ namespace ShelterHub.Controllers
 
         // Private method to get current user
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-
+        [Authorize]
         // GET: Groups
         public async Task<IActionResult> Index()
         {
@@ -56,7 +57,7 @@ namespace ShelterHub.Controllers
 
             return View(@group);
         }
-
+        [Authorize]
         // GET: Groups/Create
         public IActionResult Create()
         {
