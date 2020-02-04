@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,7 +32,7 @@ namespace ShelterHub.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
 
-
+        [Authorize]
         // GET: Clients
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
@@ -99,7 +100,7 @@ namespace ShelterHub.Controllers
 
             return View(client);
         }
-
+        [Authorize]
         // GET: Clients/Create
         public IActionResult Create()
         {
@@ -147,12 +148,14 @@ namespace ShelterHub.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _context.Clients
+                .FindAsync(id);
+
             if (client == null)
             {
                 return NotFound();
             }
-
+            
             var viewModel = new EditClientWithImageViewModel()
             {
                 Client = client
@@ -167,8 +170,10 @@ namespace ShelterHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditClientWithImageViewModel viewModel)
         {
-            var client = viewModel.Client;
-            if (id != client.Id)
+           var clientWithImage = await _context.Clients.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+
+
+            if (id != viewModel.Client.Id)
             {
                 return NotFound();
             }
@@ -177,23 +182,29 @@ namespace ShelterHub.Controllers
             {
                 try
                 {
+
                     var currentUser = await GetCurrentUserAsync();
 
-                    if (viewModel.ImageFile != null)
+                    if (viewModel.ImageFile == null && clientWithImage.ClientImage != null)
+                    {
+                        viewModel.Client.ClientImage = clientWithImage.ClientImage;
+                    }
+                    else
                     {
                         using (var memoryStream = new MemoryStream())
                         {
                             await viewModel.ImageFile.CopyToAsync(memoryStream);
                             viewModel.Client.ClientImage = memoryStream.ToArray();
-                        }
-                    };
-                    client.UserId = currentUser.Id;
-                    _context.Update(client);
+                       }
+                  }                 
+                    ;
+                    viewModel.Client.UserId = currentUser.Id;
+                    _context.Update(viewModel.Client);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(client.Id))
+                    if (!ClientExists(viewModel.Client.Id))
                     {
                         return NotFound();
                     }
