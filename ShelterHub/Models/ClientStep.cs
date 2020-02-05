@@ -14,6 +14,6 @@ namespace ShelterHub.Models
         public Step Step { get; set; }
         public DateTime DateStarted { get; set; }
         public DateTime? DateCompleted { get; set; }
-
+        
     }
 }

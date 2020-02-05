@@ -38,7 +38,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Current)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -52,7 +53,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Completed)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -86,7 +88,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Current)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -100,7 +103,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Completed)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -134,7 +138,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Current)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -148,7 +153,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Completed)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                           | <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -182,7 +188,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Current)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -196,7 +203,8 @@
                                 @Html.DisplayFor(modelItem => item.Step.StepName)
                             </dt>
                             <p class="card-text">(Completed)</p>
-                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a> | 
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
                             <br />
                         </div>
                     </div>
@@ -210,6 +218,7 @@
     <br />
 </div>
 <br />
+<a asp-controller="Clients" asp-route-id="@Model.Id" asp-action="Details">Back to Client Details</a>
 <br />
 <br />
 

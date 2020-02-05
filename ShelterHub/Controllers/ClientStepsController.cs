@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ShelterHub.Data;
 using ShelterHub.Models;
 using ShelterHub.Models.ViewModels;
-
+using static ShelterHub.Models.ClientStep;
 
 namespace ShelterHub.Controllers
 {
@@ -98,11 +98,22 @@ namespace ShelterHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateClientStepViewModel vm)
         {
+            
+
             if (ModelState.IsValid)
             {
-                _context.Add(vm.ClientStep);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
+                var ListOfClientSteps = _context.ClientSteps;
+                if (!ListOfClientSteps.Any(cs => cs.ClientId == vm.ClientStep.ClientId && cs.StepId == vm.ClientStep.StepId))
+                {
+                    _context.Add(vm.ClientStep);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
+                }
+               
             }
 
             // If the post fails, rebuild the view model and send it back to the view
@@ -200,12 +211,13 @@ namespace ShelterHub.Controllers
             var clientStep = await _context.ClientSteps.FindAsync(id);
             _context.ClientSteps.Remove(clientStep);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Clients", new { id = clientStep.ClientId });
         }
 
         private bool ClientStepExists(int id)
         {
             return _context.ClientSteps.Any(e => e.Id == id);
         }
+       
     }
 }
