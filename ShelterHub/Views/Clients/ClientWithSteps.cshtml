@@ -1,0 +1,224 @@
+﻿@model ShelterHub.Models.Client
+
+@{
+    ViewData["Title"] = "ClientWithSteps";
+}
+
+<h1>Client's Steps</h1>
+<dl class="row">
+    <dt class="col col-sm-2">
+        Client Name
+    </dt>
+    <dd class="col col-sm-10">
+        @Html.DisplayFor(model => model.FullName)
+    </dd>
+</dl>
+<br />
+<div>
+    <thead>
+        <tr>
+            <h2>
+                Housing Steps
+            </h2>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientSteps)
+        {
+            @if (item.Step.StepTypeId == 1)
+            {
+                @if (item.DateCompleted == null)
+
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Current)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Completed)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+                
+            }
+        }
+    </tbody>
+    <br />
+    <br />
+    <thead>
+        <tr>
+            <h2>
+                Employment Steps
+            </h2>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientSteps)
+        {
+            @if (item.Step.StepTypeId == 2)
+            {
+                @if (item.DateCompleted == null)
+
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Current)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Completed)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+               
+            }
+        }
+    </tbody>
+    <br />
+    <br />
+    <thead>
+        <tr>
+            <h2>
+                Documentation Steps
+            </h2>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientSteps)
+        {
+            @if (item.Step.StepTypeId == 3)
+            {
+                @if (item.DateCompleted == null)
+
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Current)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Completed)</p>
+                           | <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+              
+            }
+        }
+    </tbody>
+    <br />
+    <br />
+    <thead>
+        <tr>
+            <h2>
+                Other Steps
+            </h2>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientSteps)
+        {
+            @if (item.Step.StepTypeId == 4)
+            {
+                @if (item.DateCompleted == null)
+
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Current)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a>|
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => item.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Completed)</p>
+                            |<a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Edit">Edit</a> | 
+                            <a asp-controller="ClientSteps" asp-route-id="@item.Id" asp-action="Delete">Delete</a>|
+                            <br />
+                        </div>
+                    </div>
+                    
+                }
+
+            }
+        }
+    </tbody>
+    <br />
+    <br />
+</div>
+<br />
+<a asp-controller="Clients" asp-route-id="@Model.Id" asp-action="Details">Back to Client Details</a>
+<br />
+<br />
+

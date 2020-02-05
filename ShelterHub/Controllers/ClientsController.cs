@@ -257,5 +257,31 @@ namespace ShelterHub.Controllers
         {
             return _context.Clients.Any(e => e.Id == id);
         }
+
+
+        // GET: Clients/ClientWithSteps/5
+        public async Task<IActionResult> ClientWithSteps(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await GetCurrentUserAsync();
+
+            var client = await _context.Clients
+                .Include(c => c.User)
+                .Include(c => c.ClientSteps)
+                .ThenInclude(ClientSteps => ClientSteps.Step)
+                .Include(c => c.ClientGroups)
+                .ThenInclude(ClientGroups => ClientGroups.Group)
+                .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return View(client);
+        }
     }
 }
