@@ -129,41 +129,13 @@
     <div>
         <h2>Client Steps</h2>
         |
-        <a asp-controller="Steps" asp-action="Index">Add A Step</a> |
+        <a asp-controller="Clients" asp-route-id="@Model.Id" asp-action="ClientWithSteps">Link to Client's Steps</a> |
+        <br />
+        |
+        <a asp-controller="Steps" asp-action="Index">Add A Step To Client</a> |
         <br />
         <br />
 
-
-        @foreach (var ClientStep in Model.ClientSteps)
-        {
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    @if (ClientStep.DateCompleted == null)
-
-                    {
-                        <br />
-                        <dt class="card-title">
-                            @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
-                        </dt>
-                        <p class="card-text">(Current)</p>
-                    }
-                    else
-
-                    {
-                        <br />
-                        <dt class="card-title">
-                            @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
-                        </dt>
-                        <p class="card-text">(Completed)</p>
-                    }
-
-
-
-                    <a asp-controller="ClientSteps" asp-route-id="@ClientStep.Id" asp-action="Edit">Edit</a>
-                    <br />
-                </div>
-            </div>
-        }
     </div>
     <br />
     <br />
@@ -172,7 +144,7 @@
     <div>
         <h2>Current Groups</h2>
         |
-        <a asp-controller="Groups" asp-action="Index">Add A Group</a> |
+        <a asp-controller="Groups" asp-action="Index">Add A Group To Client</a> |
         <br />
 
 
