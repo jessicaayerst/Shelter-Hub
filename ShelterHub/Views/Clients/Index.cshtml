@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Current Clients</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Client</a>
 </p>
 @using (Html.BeginForm())
 {
@@ -23,13 +23,13 @@
                 @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First Name
             </th>
             <th>
                 @Html.ActionLink("Intake Date", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RoomNumber)
+                Room Number
             </th>
 
             <th></th>

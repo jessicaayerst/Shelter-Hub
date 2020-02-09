@@ -206,5 +206,7 @@ namespace ShelterHub.Controllers
         {
             return _context.ClientGroups.Any(e => e.Id == id);
         }
+
+       
     }
 }
