@@ -9,24 +9,23 @@
 <p>
     <a asp-action="Create">Create New Group</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
+            <th scope="col">
                 Group Name
             </th>
-            <th>
+            <th scope="col">
                Time
             </th>
-            <th>
+            <th scope="col">
                 Day
-            </th>
-            <th></th>
+            </th>          
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr scope="row">
             <td>
                 @Html.DisplayFor(modelItem => item.GroupName)
             </td>

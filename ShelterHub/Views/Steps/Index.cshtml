@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New Step</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -23,7 +23,7 @@
         {
             @if (item.StepTypeId == 1)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -52,7 +52,7 @@
         {
             @if (item.StepTypeId == 2)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -81,7 +81,7 @@
         {
             @if (item.StepTypeId == 3)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -110,7 +110,7 @@
         {
             @if (item.StepTypeId == 4)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
