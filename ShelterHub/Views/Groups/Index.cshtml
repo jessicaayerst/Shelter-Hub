@@ -4,29 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Groups</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Group</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupName)
+            <th scope="col">
+                Group Name
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Time)
+            <th scope="col">
+               Time
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DayOfWeek)
-            </th>
-            <th></th>
+            <th scope="col">
+                Day
+            </th>          
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr scope="row">
             <td>
                 @Html.DisplayFor(modelItem => item.GroupName)
             </td>

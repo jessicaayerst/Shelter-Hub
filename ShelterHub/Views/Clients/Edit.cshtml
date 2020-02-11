@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Client.Id" />
             <div class="form-group">
-                <label asp-for="Client.FirstName" class="control-label"></label>
+                <label class="control-label">First Name</label>
                 <input asp-for="Client.FirstName" class="form-control" />
                 <span asp-validation-for="Client.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.LastName" class="control-label"></label>
+                <label class="control-label">Last Name</label>
                 <input asp-for="Client.LastName" class="form-control" />
                 <span asp-validation-for="Client.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.Email" class="control-label"></label>
+                <label class="control-label">Email</label>
                 <input asp-for="Client.Email" class="form-control" />
                 <span asp-validation-for="Client.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.Phone" class="control-label"></label>
+                <label class="control-label">Phone Number</label>
                 <input asp-for="Client.Phone" class="form-control" />
                 <span asp-validation-for="Client.Phone" class="text-danger"></span>
             </div>
@@ -39,22 +39,22 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Client.EmergencyPhone" class="control-label"></label>
+                <label class="control-label">Emergency Phone Number</label>
                 <input asp-for="Client.EmergencyPhone" class="form-control" />
                 <span asp-validation-for="Client.EmergencyPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.EmergencyName" class="control-label"></label>
+                <label class="control-label">Emergency Contact Name</label>
                 <input asp-for="Client.EmergencyName" class="form-control" />
                 <span asp-validation-for="Client.EmergencyName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.AssignedStaff" class="control-label"></label>
+                <label class="control-label">Staff Assigned To Client</label>
                 <input asp-for="Client.AssignedStaff" class="form-control" />
                 <span asp-validation-for="Client.AssignedStaff" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.RoomNumber" class="control-label"></label>
+                <label class="control-label">Room Number</label>
                 <input asp-for="Client.RoomNumber" class="form-control" />
                 <span asp-validation-for="Client.RoomNumber" class="text-danger"></span>
             </div>
@@ -64,17 +64,17 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Client.IntakeDate" class="control-label"></label>
+                <label class="control-label">Date of Intake</label>
                 <input asp-for="Client.IntakeDate" class="form-control" />
                 <span asp-validation-for="Client.IntakeDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Client.DepartDate" class="control-label"></label>
+                <label class="control-label">Date of Departure</label>
                 <input asp-for="Client.DepartDate" class="form-control" />
                 <span asp-validation-for="Client.DepartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.ImageFile" class="control-label"></label>
+                <label class="control-label">Client Image</label>
                 <input asp-for="@Model.ImageFile" type="file" />
                 <span asp-validation-for="@Model.ImageFile" class="text-danger"></span>
             </div>

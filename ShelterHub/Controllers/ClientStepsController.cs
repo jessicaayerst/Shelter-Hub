@@ -143,6 +143,7 @@ namespace ShelterHub.Controllers
             }
             ViewData["ClientId"] = clientStep.Client.FullName;
             ViewData["StepId"] = clientStep.Step.StepName;
+            ViewData["DateStarted"] = clientStep.DateStarted;
             return View(clientStep);
         }
 
@@ -176,7 +177,7 @@ namespace ShelterHub.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "Clients", new { id = clientStep.ClientId });
+                return RedirectToAction("ClientWithSteps", "Clients", new { id = clientStep.ClientId });
             }
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", clientStep.ClientId);
             ViewData["StepId"] = new SelectList(_context.Steps, "Id", "Id", clientStep.StepId);

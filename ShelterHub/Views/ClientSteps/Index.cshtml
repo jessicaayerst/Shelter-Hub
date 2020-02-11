@@ -10,32 +10,38 @@
 <table class="table">
     @foreach (var ClientStep in Model)
     {
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
+        
                 @if (ClientStep.DateCompleted == null)
 
                 {
-                    <br />
-                    <dt class="card-title">
-                        @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
-                    </dt>
-                    <p class="card-text">(Current)</p>
+                    <div class="card green-background" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Current**)</p>
+                        </div>
+                    </div>
                 }
                 else
 
                 {
-                    <br />
-                    <dt class="card-title">
-                        @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
-                    </dt>
-                    <p class="card-text">(Completed)</p>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br />
+                            <dt class="card-title">
+                                @Html.DisplayFor(modelItem => ClientStep.Step.StepName)
+                            </dt>
+                            <p class="card-text">(Completed)</p>
+                        </div>
+                    </div>
                 }
 
 
 
                 <a asp-controller="ClientSteps" asp-route-id="@ClientStep.Id" asp-action="Edit">Edit</a>
                 <br />
-            </div>
-        </div>
-    }
+
+                }
 </table>

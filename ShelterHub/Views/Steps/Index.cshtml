@@ -9,11 +9,11 @@
 <p>
     <a asp-action="Create">Create New Step</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
-                Housing Steps
+                Housing 
             </th>
             <th></th>
         </tr>
@@ -23,7 +23,7 @@
         {
             @if (item.StepTypeId == 1)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -42,7 +42,7 @@
     <thead>
         <tr>
             <th>
-                Employment Steps
+                Employment 
             </th>
             <th></th>
         </tr>
@@ -52,7 +52,7 @@
         {
             @if (item.StepTypeId == 2)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -71,7 +71,7 @@
     <thead>
         <tr>
             <th>
-                Documentation Steps
+                Documentation 
             </th>
             <th></th>
         </tr>
@@ -81,7 +81,7 @@
         {
             @if (item.StepTypeId == 3)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
@@ -100,7 +100,7 @@
     <thead>
         <tr>
             <th>
-                Other Steps
+                Other 
             </th>
             <th></th>
         </tr>
@@ -110,7 +110,7 @@
         {
             @if (item.StepTypeId == 4)
             {
-                <tr>
+                <tr scope="row">
                     <td>
                         @Html.DisplayFor(modelItem => item.StepName)
                     </td>
