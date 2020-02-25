@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using ShelterHub.Data;
 using ShelterHub.Models;
 using ShelterHub.Models.ViewModels;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+
 
 namespace ShelterHub.Controllers
 {
@@ -31,14 +34,14 @@ namespace ShelterHub.Controllers
 
         // GET: ClientGroups
         public async Task<IActionResult> Index()
-        {
+        {//The user is never directed to the ClientGroup Index view. If there was a link to this view, it would show a long list of every Client/Group relationship in the database.
             var applicationDbContext = _context.ClientGroups.Include(c => c.Client).Include(c => c.Group);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: ClientGroups/Details/5
         public async Task<IActionResult> Details(int? id)
-        {
+        {//This user is never directed to the ClientGroup Details view. The user can see a list of groups that each client is enlisted in, on the the Client Details view. There was no need to show this specific view in the app.
             if (id == null)
             {
                 return NotFound();
@@ -59,7 +62,7 @@ namespace ShelterHub.Controllers
         // GET: ClientGroups/Create
         public async Task<IActionResult> Create(int id)
         {
-
+            //When the user clicks "Add Group to Client", from the Group Index view, or Group Details view, then the user will be directed to the ClientGroups Create View, which has been created using a view model.
             var user = await GetCurrentUserAsync();
 
             List<Client> clients = await _context.Clients
@@ -72,9 +75,10 @@ namespace ShelterHub.Controllers
                 .Include(c => c.User)
                 .Include(g => g.ClientGroups)
                 .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
+            //instantiate view model
             var viewModel = new CreateClientGroupViewModel()
             {
-
+                //display a drop down list of clients where the user will be able to select a client. Once the client is selected, a ClientGroup will be created, which will have the id of that specific client, and the id of the specific group.
                 ClientNameOptions = clients.Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -98,15 +102,17 @@ namespace ShelterHub.Controllers
         public async Task<IActionResult> Create(CreateClientGroupViewModel vm)
         {
             if (ModelState.IsValid)
-            {
+            {//if the model state is valid, the new ClientGroup will be added to the database
                 _context.Add(vm.ClientGroup);
-                await _context.SaveChangesAsync();
+               
+            await _context.SaveChangesAsync();
+                //Direct the user to the Client Details page of the client who was chosen in the drop down box.
                 return RedirectToAction("Details", "Clients", new { id = vm.ClientGroup.ClientId });
             }
 
             // If the post fails, rebuild the view model and send it back to the view
             List<Client> clients = await _context.Clients.ToListAsync();
-
+            //display a drop down list of clients where the user will be able to select a client. Once the client is selected, a ClientGroup will be created, which will have the id of that specific client, and the id of the specific group.
             vm.ClientNameOptions = clients.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
@@ -118,7 +124,7 @@ namespace ShelterHub.Controllers
 
         // GET: ClientGroups/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {
+        {//The user is never directed to the ClientGroup Edit view
             if (id == null)
             {
                 return NotFound();

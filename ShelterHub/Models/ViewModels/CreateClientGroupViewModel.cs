@@ -10,5 +10,6 @@ namespace ShelterHub.Models.ViewModels
     {
         public ClientGroup ClientGroup { get; set; }
         public List<SelectListItem> ClientNameOptions { get; set; }
+     
     }
 }

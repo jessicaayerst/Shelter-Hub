@@ -52,13 +52,13 @@ namespace ShelterHub.Controllers
             var clients = from c in clientsOfUSer select c;
 
             if (!String.IsNullOrEmpty(searchString))
-            {
+            {//method for the user to search for a specific client by any string found within a client's first of last names
                 clients = clients.Where(c => c.LastName.Contains(searchString)
                                        || c.FirstName.Contains(searchString));
             }
 
             switch (sortOrder)
-            {
+            {//method that sorts the list of clients by descending alphabetical last name or by descending intake date(most recent date will be at the bottom, and furthest date will be at the top of list)
                 case "name_desc":
                     clients = clients.OrderByDescending(c => c.LastName);
                     break;
@@ -78,14 +78,14 @@ namespace ShelterHub.Controllers
 
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
-        {
+        {//method to Get a specific client by id. If the id is null, the query will return NotFound()
             if (id == null)
             {
                 return NotFound();
             }
-
+            //Get the current user
             var user = await GetCurrentUserAsync();
-
+            //Create a variable named "client", that will include the current user, client steps, client groups, and returns the first client that matches both the parameter "id" and the current user's id
             var client = await _context.Clients
                 .Include(c => c.User)
                 .Include(c => c.ClientSteps)
@@ -97,13 +97,13 @@ namespace ShelterHub.Controllers
             {
                 return NotFound();
             }
-
+            //return the newly create variable "client"'s details
             return View(client);
         }
         [Authorize]
         // GET: Clients/Create
         public IActionResult Create()
-        {
+        {//instantiate view model, that allows the client's image to be displayed on the view
             CreateClientWithImageViewModel vm = new CreateClientWithImageViewModel();
           
             return View(vm);
@@ -118,10 +118,10 @@ namespace ShelterHub.Controllers
         {
             ModelState.Remove("client.UserId");
             if (ModelState.IsValid)
-            {
+            { //If the model is valid, then the client will be saved to the current user's list of clients, and the client will have a userId of the current user. The new client will be added to the list of clients.
                 var currentUser = await GetCurrentUserAsync();
                 if (vm.ImageFile != null)
-                {
+                {//Method where if the image file contains an image, then that image will be displayed with the view
                     using (var memoryStream = new MemoryStream())
                     {
                         await vm.ImageFile.CopyToAsync(memoryStream);
@@ -129,11 +129,12 @@ namespace ShelterHub.Controllers
                     }
                 };
 
-
+                //Set the new client's userId to the current user's id and add it the the current user's list of clients
                 vm.Client.UserId = currentUser.Id;
                 _context.Add(vm.Client);
 
                 await _context.SaveChangesAsync();
+                //After saving the new client, the user will be directed back to the Clients Index view
                 return RedirectToAction(nameof(Index));
             }          
            
@@ -155,7 +156,7 @@ namespace ShelterHub.Controllers
             {
                 return NotFound();
             }
-            
+            //instantiate view model, where the vm's client is the client whose id matches the parameter "id"
             var viewModel = new EditClientWithImageViewModel()
             {
                 Client = client
@@ -174,17 +175,17 @@ namespace ShelterHub.Controllers
 
 
             if (id != viewModel.Client.Id)
-            {
+            {//if the parameter "id" does not matche the vm's client id, then return Not Found()
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
                 try
-                {
+                {//if the model state is valid, get the current user
 
                     var currentUser = await GetCurrentUserAsync();
-
+                    //if the vm's image file is null and the clientWithImage's image file is not null, then set the vm's image file equal to the ClientWithImage's image file, other wise, set the image file to the vm's image file. This conditional ensures that if the client already has an image, and the user doesn't change or add another image during the edit, that the original image will still be in the database, instead of nothing.
                     if (viewModel.ImageFile == null && clientWithImage.ClientImage != null)
                     {
                         viewModel.Client.ClientImage = clientWithImage.ClientImage;
@@ -225,7 +226,7 @@ namespace ShelterHub.Controllers
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
-        {
+        {//sends user to a delete client confirmation page, if the user chooses to delete, then the client whose id matches the parameter "id" and whose userId matches the current user Id, will be deleted
             if (id == null)
             {
                 return NotFound();
@@ -254,14 +255,14 @@ namespace ShelterHub.Controllers
         }
 
         private bool ClientExists(int id)
-        {
+        {//private method to check that the client actually exists
             return _context.Clients.Any(e => e.Id == id);
         }
 
 
         // GET: Clients/ClientWithSteps/5
         public async Task<IActionResult> ClientWithSteps(int? id)
-        {
+        {//a seperate method that sends the user to a view that shows the client's list of steps.
             if (id == null)
             {
                 return NotFound();
