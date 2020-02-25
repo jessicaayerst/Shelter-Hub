@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 namespace ShelterHub.Models
 {
     public class ApplicationUser : IdentityUser
+        
     {
         [Required]
         [Display(Name = "Shelter Name")]

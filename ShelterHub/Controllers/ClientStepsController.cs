@@ -33,14 +33,14 @@ namespace ShelterHub.Controllers
 
         // GET: ClientSteps
         public async Task<IActionResult> Index()
-        {
+        {//The user is never directed to the ClientSteps Index view. If there was a link to this view, it would show a long list of every Client/Step relationship in the database.
             var applicationDbContext = _context.ClientSteps.Include(c => c.Client).Include(c => c.Step);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: ClientSteps/Details/5
         public async Task<IActionResult> Details(int? id)
-        {
+        {//This user is never directed to the ClientStep Details view. The user can see a list of steps that each client is enlisted in, on the the Client - ClientWithSteps View (a seperate view created in the Clients Controller for the purpose of listing the specific client's steps). The user can get to this view from the Client Details view, then clicking the "Go To Client's Steps" link.
             if (id == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace ShelterHub.Controllers
 
         // GET: ClientSteps/Create
         public async Task<IActionResult> Create(int id)
-        {
+        {//When the user clicks "Add Step to Client", from the Step Index view, or Client Details view, then the user will be directed to the ClientSteps Create View, which has been created using a view model.
             var user = await GetCurrentUserAsync();
 
             List<Client> clients = await _context.Clients
@@ -73,9 +73,10 @@ namespace ShelterHub.Controllers
                  .Include(s => s.User)
                 .Include(s => s.ClientSteps)
                 .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
+            //instantiate view model
             var viewModel = new CreateClientStepViewModel()
             {
-
+                //display a drop down list of clients where the user will be able to select a client. Once the client is selected, a ClientStep will be created, which will have the id of that specific client, and the id of the specific step.
                 ClientNameOptions = clients.Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -101,16 +102,18 @@ namespace ShelterHub.Controllers
             
 
             if (ModelState.IsValid)
-            {
+            {//if the model state is valid, the new ClientStep will be added to the database
                 var ListOfClientSteps = _context.ClientSteps;
+                //This conditional just makes sure that the client can only be added to this particular step once. If there is already a ClientStep, where the client id and the step id both match the ones just selected by the user, then the user will simply be returned to the Client Details page for that client, instead of creating a duplicate ClientStep.
                 if (!ListOfClientSteps.Any(cs => cs.ClientId == vm.ClientStep.ClientId && cs.StepId == vm.ClientStep.StepId))
                 {
                     _context.Add(vm.ClientStep);
                     await _context.SaveChangesAsync();
+                    //Direct the user to the Client Details page of the client who was chosen in the drop down box.
                     return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
                 }
                 else
-                {
+                { //Direct the user to the Client Details page of the client who was chosen in the drop down box.
                     return RedirectToAction("Details", "Clients", new { id = vm.ClientStep.ClientId });
                 }
                
@@ -118,7 +121,7 @@ namespace ShelterHub.Controllers
 
             // If the post fails, rebuild the view model and send it back to the view
             List<Client> clients = await _context.Clients.ToListAsync();
-
+            //display a drop down list of clients where the user will be able to select a client. Once the client is selected, a ClientStep will be created, which will have the id of that specific client, and the id of the specific step.
             vm.ClientNameOptions = clients.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
@@ -130,7 +133,7 @@ namespace ShelterHub.Controllers
 
         // GET: ClientSteps/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {
+        {//the user will only go to the ClientStep Edit view to change the start date or end date of the step. Nothing else can be changed in the edit view.
             if (id == null)
             {
                 return NotFound();
@@ -153,7 +156,7 @@ namespace ShelterHub.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,StepId,DateStarted,DateCompleted")] ClientStep clientStep)
-        {
+        {//If the user changes the start or end date of a ClientStep, then the updates will be saved to the database.
             if (id != clientStep.Id)
             {
                 return NotFound();

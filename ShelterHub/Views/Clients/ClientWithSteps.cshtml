@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "ClientWithSteps";
 }
-
+@* This view was created to display a specific client's steps on a seperate page, so that the Client Details page won't appear too long and crowded. *@
 <h1>Client's Steps</h1>
 <dl class="row">
     <dt class="col col-sm-2">
@@ -15,6 +15,7 @@
 </dl>
 <br />
 <div>
+    @* The client's steps are seperated into four categories: Housing, Employment, Documentation, Other. The model loops through each ClientStep and if the parameters match the parameters given under each loop below, then the steps will be listed. Also, completed steps will be displayed with a red background and current steps will be displayed with a green background. The steps are displayed using bootstrap cards. *@
     <thead>
         <tr>
             <h2>
